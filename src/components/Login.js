@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { loginSucess } from '../utils/authSlice'
+import {useNavigate} from 'react-router-dom'
 
 
 const Login = () => {
@@ -10,12 +11,18 @@ const Login = () => {
  const[email,setEmail]=useState('')
  const[password,setPassword]=useState('')
  const dispatch=useDispatch();
+ const navigate=useNavigate();
 
  const handleSubmit=(e)=>{
     e.preventDefault();
     if(name==="Testuser" && email==="testuser@gmail.com" && password==="Testuser@Oct2024"){
-        dispatch(loginSucess({name,email}));
-        alert("Login Successful")
+
+        const authToken="sampleAuthToken123"
+        dispatch(loginSucess({name:name,email:email}));
+
+        localStorage.setItem('user',JSON.stringify({name,email,authToken}))
+        navigate('/dashboard')
+        // alert("Login Successful")
     }else{
         alert("Iinvalid Credentials")
     }
